@@ -43,7 +43,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ca-central-1 # Atualize a região conforme necessário
+        aws-region: us-east-1  # Atualize a região conforme necessário
 
     - name: Instalar EB CLI
       run: |
@@ -64,3 +64,7 @@ jobs:
     - name: Obter Status do Elastic Beanstalk
       run: |
         eb status
+
+    - name: Terminar Ambiente Elastic Beanstalk
+      run: |
+        eb terminate --force my-app-env  # Atualize o nome do ambiente conforme necessário

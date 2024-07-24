@@ -53,6 +53,10 @@ jobs:
       run: |
         eb init -p python-3.7 my-app --region us-east-1  # Atualize o nome do aplicativo e a região conforme necessário
 
+    - name: Terminar Ambiente Elastic Beanstalk se Existir
+      run: |
+        eb terminate my-app-env --force || echo "Environment does not exist or has already been terminated"
+
     - name: Criar Ambiente Elastic Beanstalk
       run: |
         eb create my-app-env  # Atualize o nome do ambiente conforme necessário
@@ -64,7 +68,3 @@ jobs:
     - name: Obter Status do Elastic Beanstalk
       run: |
         eb status
-
-    - name: Terminar Ambiente Elastic Beanstalk
-      run: |
-        eb terminate --force my-app-env  # Atualize o nome do ambiente conforme necessário

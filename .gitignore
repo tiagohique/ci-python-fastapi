@@ -1,0 +1,101 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info
+dist
+build
+.eggs
+*.pyc
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+develop-eggs
+sdist
+var
+*.egg-info/
+.installed.cfg
+*.egg
+lib/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+*.log
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pyre type checker
+.pyre/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.cache
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# FastAPI
+fastapi_sum_project/__pycache__/
+fastapi_sum_project/*.pyc
+fastapi_sum_project/*.pyo
+
+# Docker
+*.dockerignore
+Dockerfile
+docker-compose.yml

@@ -43,7 +43,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Atualize a região conforme necessário
+        aws-region: ca-central-1 # Atualize a região conforme necessário
 
     - name: Instalar EB CLI
       run: |
@@ -57,14 +57,14 @@ jobs:
       run: |
         eb terminate my-app-env --force || echo "Environment does not exist or has already been terminated"
 
-    - name: Criar Ambiente Elastic Beanstalk
-      run: |
-        eb create my-app-env  # Atualize o nome do ambiente conforme necessário
+    #- name: Criar Ambiente Elastic Beanstalk
+    #  run: |
+     #   eb create my-app-env  # Atualize o nome do ambiente conforme necessário
 
-    - name: Fazer Deploy para Elastic Beanstalk
-      run: |
-        eb deploy
+    #- name: Fazer Deploy para Elastic Beanstalk
+    #  run: |
+     #   eb deploy
 
-    - name: Obter Status do Elastic Beanstalk
-      run: |
-        eb status
+    #- name: Obter Status do Elastic Beanstalk
+     # run: |
+      #  eb status

@@ -24,7 +24,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install httpx  # Adiciona a instalação do httpx
+          pip install httpx
 
       - name: Executar testes
         run: |
@@ -47,9 +47,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Capturar a tag do commit
+      - name: Capturar a tag do commit ou nome do branch
         id: tag
-        run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: |
+          if [ "${{ github.ref_type }}" == "tag" ]; then
+            echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            BRANCH_NAME=${GITHUB_REF#refs/heads/}
+            SAFE_BRANCH_NAME=${BRANCH_NAME//\//-}
+            echo "GIT_TAG=${SAFE_BRANCH_NAME}" >> $GITHUB_ENV
+          fi
 
       - name: Construir imagem Docker
         run: |

@@ -1,4 +1,4 @@
-name: Pipeline de CI/CD - Tiago
+name: Pipeline de CI/CD
 
 on:
   push:

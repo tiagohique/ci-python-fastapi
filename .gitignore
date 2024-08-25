@@ -9,6 +9,8 @@ build
 .eggs
 *.pyc
 
+echo ".terraform/" >> .gitignore
+
 # Virtual Environment
 venv/
 ENV/

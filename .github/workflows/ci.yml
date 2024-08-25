@@ -14,6 +14,19 @@ jobs:
     steps:
       - name: Baixar código
         uses: actions/checkout@v3
+# *************************************************************************** 
+     #configurando AWS   
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::288786226667:role/ecr-role
+          aws-region: us-east-1
+
+      #login  ECR    
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+# *************************************************************************** 
 
       - name: Configurar Python
         uses: actions/setup-python@v4

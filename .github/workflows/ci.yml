@@ -6,7 +6,10 @@ on:
       - main
     tags:
       - '*'
-
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   teste:
     runs-on: ubuntu-latest

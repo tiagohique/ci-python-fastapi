@@ -9,6 +9,12 @@ build
 .eggs
 *.pyc
 
+# Ignorar tudo na pasta iac
+iac/*
+
+# Não ignorar arquivos .tf na pasta iac
+!iac/*.tf
+
 echo ".terraform/" >> .gitignore
 
 # Virtual Environment

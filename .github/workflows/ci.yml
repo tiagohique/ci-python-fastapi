@@ -33,7 +33,7 @@ jobs:
           pytest
 
   Build-Push-AWS-ECR:
-    needs: teste
+    needs: Testes-Automatizados
     runs-on: ubuntu-latest
 
     steps:

@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  teste:
+  Testes-Automatizados:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
         run: |
           pytest
 
-  build-push:
+  Build-Push-AWS-ECR:
     needs: teste
     runs-on: ubuntu-latest
 

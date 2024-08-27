@@ -1,5 +1,4 @@
-name: Pipeline de CI/CD
-
+name: Pipeline de CI/CD2
 on:
   push:
     branches:
@@ -9,7 +8,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   teste:
     runs-on: ubuntu-latest

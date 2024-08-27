@@ -1,4 +1,4 @@
-name: Pipeline de CI/CD2
+name: Pipeline de CI/CD
 on:
   push:
     branches:
@@ -16,19 +16,6 @@ jobs:
     steps:
       - name: Baixar código
         uses: actions/checkout@v3
-# *************************************************************************** 
-     #configurando AWS   
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::288786226667:role/ecr-role
-          aws-region: us-east-1
-
-      #login  ECR    
-      - name: Login to AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-# *************************************************************************** 
 
       - name: Configurar Python
         uses: actions/setup-python@v4
@@ -53,30 +40,24 @@ jobs:
       - name: Baixar código
         uses: actions/checkout@v3
 
-      - name: Configurar Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Fazer login no DockerHub
-        uses: docker/login-action@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          role-to-assume: arn:aws:iam::288786226667:role/ecr-role
+          aws-region: us-east-2
 
-      - name: Capturar a tag do commit ou nome do branch
-        id: tag
-        run: |
-          if [ "${{ github.ref_type }}" == "tag" ]; then
-            echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          else
-            BRANCH_NAME=${GITHUB_REF#refs/heads/}
-            SAFE_BRANCH_NAME=${BRANCH_NAME//\//-}
-            echo "GIT_TAG=${SAFE_BRANCH_NAME}" >> $GITHUB_ENV
-          fi
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Construir imagem Docker
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/minha-aplicacao-fastapi:${{ env.GIT_TAG }} .
+      - name: Generate Docker tag
+        id: generate_tag
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Enviar imagem Docker
+      - name: Build and push docker image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          TAG: ${{ env.sha }}
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/minha-aplicacao-fastapi:${{ env.GIT_TAG }}
+          docker build -t $REGISTRY/rocketseat-ci:$TAG .
+          docker push $REGISTRY/rocketseat-ci:$TAG

@@ -1,19 +1,3 @@
-resource "aws_iam_openid_connect_provider" "oidc-git" {
-  url = "https://token.actions.githubusercontent.com"
-
-  client_id_list = [
-    "sts.amazonaws.com"
-  ]
-
-  thumbprint_list = [
-    "d89e3bd43d5d909b47a18977aa9d5ce36cee184c"
-  ]
-
-  tags = {
-    IAC = "True"
-  }
-}
-
 resource "aws_iam_role" "app-runner-role" {
   name = "app-runner-role"
 
@@ -23,7 +7,7 @@ resource "aws_iam_role" "app-runner-role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "build.apprunner.amazonaws.com"
+          Service = "tasks.apprunner.amazonaws.com" # Ajustado para o serviço correto do App Runner
         }
         Action = "sts:AssumeRole"
       }
@@ -61,6 +45,16 @@ resource "aws_iam_role" "ecr-role" {
                     ]
                 }
             }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "build.apprunner.amazonaws.com",
+                    "tasks.apprunner.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
         }
     ]
   })
@@ -68,41 +62,41 @@ resource "aws_iam_role" "ecr-role" {
   inline_policy {
     name = "ecr-app-permission"
 
-policy = jsonencode({
-  Version = "2012-10-17"
-  Statement = [
-    {
-      Sid = "Statement1",
-      Action = "apprunner:*",
-      Effect = "Allow",
-      Resource = "*"
-    },
-    {
-      Sid     = "Statement2",
-      Action  = [
-        "iam:PassRole",
-        "iam:CreateServiceLinkedRole"
-      ],
-      Effect  = "Allow",
-      Resource = "*"
-    },
-    {
-      Sid = "Statement3",
-      Action = [
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:PutImage",
-        "ecr:InitiateLayerUpload",
-        "ecr:UploadLayerPart",
-        "ecr:CompleteLayerUpload",
-        "ecr:GetAuthorizationToken"
-      ],
-      Effect = "Allow",
-      Resource = "*"
-    }
-  ]
-})
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Sid = "Statement1",
+          Action = "apprunner:*",
+          Effect = "Allow",
+          Resource = "*"
+        },
+        {
+          Sid     = "Statement2",
+          Action  = [
+            "iam:PassRole",
+            "iam:CreateServiceLinkedRole"
+          ],
+          Effect  = "Allow",
+          Resource = "*"
+        },
+        {
+          Sid = "Statement3",
+          Action = [
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:BatchGetImage",
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:PutImage",
+            "ecr:InitiateLayerUpload",
+            "ecr:UploadLayerPart",
+            "ecr:CompleteLayerUpload",
+            "ecr:GetAuthorizationToken"
+          ],
+          Effect = "Allow",
+          Resource = "*"
+        }
+      ]
+    })
   }
 
   tags = {

@@ -75,6 +75,6 @@ jobs:
           image: ${{ steps.build-docker-image.outputs.image }}
           access-role-arn: arn:aws:iam::288786226667:role/app-runner-role
           region: us-east-2
-          cpu: 2
-          memory: 2
+          cpu: 3
+          memory: 3
           port: 8000

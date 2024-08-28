@@ -52,13 +52,16 @@ jobs:
 
       - name: Generate Docker tag
         id: generate_tag
-        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        run: |
+          echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: $GITHUB_ENV
 
       - name: Build docker image
         id: build-docker-image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          TAG: ${{ steps.generate_tag.outputs.sha }}
+          TAG: ${{ env.TAG }}  # Usar a variável de ambiente diretamente
         run: |
           docker build -t $REGISTRY/rocketseat-ci:$TAG .
           docker push $REGISTRY/rocketseat-ci:$TAG

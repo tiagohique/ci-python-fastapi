@@ -73,7 +73,7 @@ jobs:
         with:
           service: rocketseat-api
           image: ${{ steps.build-docker-image.outputs.image }}
-          access-role-arn: arn:aws:iam::403429280851:role/app-runner-role
+          access-role-arn: arn:aws:iam::288786226667:role/app-runner-role
           region: us-east-2
           cpu: 1
           memory: 1

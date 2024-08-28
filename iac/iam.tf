@@ -1,3 +1,19 @@
+resource "aws_iam_openid_connect_provider" "oidc-git" {
+  url = "https://token.actions.githubusercontent.com"
+
+  client_id_list = [
+    "sts.amazonaws.com"
+  ]
+
+  thumbprint_list = [
+    "d89e3bd43d5d909b47a18977aa9d5ce36cee184c"
+  ]
+
+  tags = {
+    IAC = "True"
+  }
+}
+
 resource "aws_iam_role" "app-runner-role" {
   name = "app-runner-role"
 
@@ -7,7 +23,7 @@ resource "aws_iam_role" "app-runner-role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "tasks.apprunner.amazonaws.com" # Ajustado para o serviço correto do App Runner
+          Service = "build.apprunner.amazonaws.com"
         }
         Action = "sts:AssumeRole"
       }
@@ -45,16 +61,6 @@ resource "aws_iam_role" "ecr-role" {
                     ]
                 }
             }
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "build.apprunner.amazonaws.com",
-                    "tasks.apprunner.amazonaws.com"
-                ]
-            },
-            "Action": "sts:AssumeRole"
         }
     ]
   })

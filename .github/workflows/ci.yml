@@ -81,10 +81,15 @@ jobs:
 
       - name: Configure App Runner Autoscaling
         run: |
+          # Criar ou atualizar a configuração de autoscaling
+          aws apprunner create-auto-scaling-configuration \
+            --auto-scaling-configuration-name my-scaling-config \
+            --min-size 1 \
+            --max-size 5 || echo "Configuration already exists, skipping creation."
+
+          # Atualizar o serviço para usar a configuração de autoscaling
           aws apprunner update-service \
             --service-arn arn:aws:apprunner:us-east-2:288786226667:service/rocketseat-api \
-            --auto-scaling-configuration-arn arn:aws:apprunner:us-east-2:288786226667:auto-scaling-configuration/my-scaling-config \
-            --min-size 1 \
-            --max-size 5
+            --auto-scaling-configuration-arn arn:aws:apprunner:us-east-2:288786226667:auto-scaling-configuration/my-scaling-config
         env:
           AWS_REGION: us-east-2

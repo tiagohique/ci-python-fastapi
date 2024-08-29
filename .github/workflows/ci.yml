@@ -75,6 +75,16 @@ jobs:
           image: ${{ steps.build-docker-image.outputs.image }}
           access-role-arn: arn:aws:iam::288786226667:role/app-runner-role
           region: us-east-2
-          cpu:  2
-          memory: 4
+          cpu:  0.25
+          memory: 0.5 
           port: 8000
+
+      - name: Configure App Runner Autoscaling
+        run: |
+          aws apprunner update-service \
+            --service-arn arn:aws:apprunner:us-east-2:288786226667:service/rocketseat-api \
+            --auto-scaling-configuration-arn arn:aws:apprunner:us-east-2:288786226667:auto-scaling-configuration/my-scaling-config \
+            --min-size 1 \
+            --max-size 5
+        env:
+          AWS_REGION: us-east-2

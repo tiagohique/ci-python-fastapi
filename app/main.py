@@ -7,4 +7,4 @@ app.include_router(router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the sum API - Tiago v1.0"}
+    return {"message": "Welcome to the sum API - Tiago v2.5"}

@@ -6,7 +6,7 @@ client = TestClient(app)
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the sum API - Tiago v1.0"}
+    assert response.json() == {"message": "Welcome to the sum API - Tiago v2.5"}
 
 def test_calculate_sum():
     response = client.post("/sum", json={"value1": 10.5, "value2": 5.5})

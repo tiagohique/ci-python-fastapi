@@ -78,7 +78,7 @@ jobs:
           cpu:  0.25
           memory: 0.5 
           port: 8000
-          
+
       - name: Configure App Runner Autoscaling
         run: |
           # Criar ou atualizar a configuração de autoscaling
@@ -88,7 +88,12 @@ jobs:
             --max-size 5 || echo "Configuration already exists, skipping creation."
 
           # Obter ARN exato da configuração de autoscaling
-          AUTO_SCALING_ARN=$(aws apprunner describe-auto-scaling-configuration --auto-scaling-configuration-name my-scaling-config --query 'AutoScalingConfiguration.AutoScalingConfigurationArn' --output text)
+          AUTO_SCALING_ARN=$(aws apprunner describe-auto-scaling-configuration \
+            --auto-scaling-configuration-name my-scaling-config \
+            --query 'AutoScalingConfiguration.AutoScalingConfigurationArn' \
+            --output text)
+
+          echo "Using Auto Scaling ARN: $AUTO_SCALING_ARN"
 
           # Atualizar o serviço para usar a configuração de autoscaling
           aws apprunner update-service \
